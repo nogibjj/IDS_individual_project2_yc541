@@ -75,7 +75,10 @@ fn init_db(conn: &Connection) -> Result<(), rusqlite::Error> {
 }
 
 fn create_user(conn: &Connection, name: &str, age: i32) -> Result<(), Box<dyn Error>> {
-    let rows = conn.execute("INSERT INTO user (name, age) VALUES (?, ?)", params![name, age])?;
+    let rows = conn.execute(
+        "INSERT INTO user (name, age) VALUES (?, ?)",
+        params![name, age],
+    )?;
     if rows > 0 {
         println!("User {} created with age {}.", name, age);
     } else {
@@ -84,25 +87,22 @@ fn create_user(conn: &Connection, name: &str, age: i32) -> Result<(), Box<dyn Er
     Ok(())
 }
 
-
 fn read_user(conn: &Connection, name: &str) -> Result<(), Box<dyn Error>> {
     let mut stmt = conn.prepare("SELECT age FROM user WHERE name = ?")?;
     let user_age = stmt.query_row(params![name], |row| row.get::<_, i32>(0));
-
 
     match user_age {
         Ok(age) => {
             println!("User {} is {} years old.", name, age);
             Ok(())
-        },
+        }
         Err(rusqlite::Error::QueryReturnedNoRows) => {
             println!("User {} not found.", name);
             Ok(())
-        },
+        }
         Err(e) => Err(Box::new(e) as Box<dyn Error>),
     }
 }
-
 
 fn update_user(conn: &Connection, name: &str, age: i32) -> Result<(), Box<dyn Error>> {
     let rows = conn.execute("UPDATE user SET age = ? WHERE name = ?", params![age, name])?;
