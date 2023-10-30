@@ -10,6 +10,7 @@
 - [Optimized Rust Binary](#optimized-rust-binary)
 - [How to Run the Project](#how-to-run-the-project)
 - [GitHub Actions Results](#github-actions-results)
+- [Demo Video](#demo-video)
 
 
 ## Project Structure
@@ -116,3 +117,7 @@ For the assignment's requirements, using GitHub Actions satisfies the criteria o
 The `cicd.yml` file handles the automation for building and releasing the Rust binary. Upon successful builds, a green checkmark will appear in the GitHub Actions tab.
 ![Alt text](./images/action_result.PNG)
 
+## Demo Video
+Here is a sharing link to my demo video for this project.
+
+https://www.loom.com/share/33063e2ca395483ba77e7194185b8925?sid=963267f4-1f08-4220-a672-bcc06e79cd59
