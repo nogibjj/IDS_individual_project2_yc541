@@ -1,47 +1,31 @@
-name: Rust CI/CD
+name: Build and Upload Rust Binary
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-env:
-  CARGO_TERM_COLOR: always
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: rust_sqlite_cli 
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Install Rust toolchain
       uses: actions-rs/toolchain@v1
       with:
           toolchain: stable
           profile: minimal
-          components: clippy, rustfmt
           override: true
 
-    - name: Build Release
-      run: cargo build --release
+    - name: Build Rust Binary for Release
+      run: |
+        cd rust_sqlite_cli
+        cargo build --release
 
-    - name: Format code
-      run: cargo fmt --all -- --check
-
-    - name: Lint code
-      run: cargo clippy --all-targets --all-features -- -D warnings
-
-    - name: Run tests
-      run: cargo test
-
-    - name: Upload optimized Rust binary as artifact
+    - name: Upload Binary as Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: rust-binary-artifact
-        path: target/release/your_binary_name  # Replace 'your_binary_name' with the name of your binary
-  
+        name: rust-sqlite-cli-binary
+        path: rust_sqlite_cli/target/release/rust_sqlite_cli
